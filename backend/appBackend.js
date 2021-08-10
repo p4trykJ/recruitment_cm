@@ -8,11 +8,11 @@ app.use(cors())
 
 const port = process.env.PORT || 5000
 
-const messages = messagesGenerator(100)
+const messages = messagesGenerator(10000)
 
 app.get('/api/messages', function (req, res) {
-  console.log('  req', req)
-  res.send(messages.map(({ message, ...rest }) => ({ ...rest })))
+  res.send(messages)
+  // res.send(messages.map(({ message, ...rest }) => ({ ...rest })))
 })
 
 app.get('/api/messages/:id', function (req, res) {

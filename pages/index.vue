@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters class="flex-column fill-height">
-    <v-col cols="12">
+    <v-col class="flex-grow-0">
       <v-container>
         <header class="py-10 white">
           <v-row no-gutters class="justify-start align-center">
@@ -13,38 +13,90 @@
           </v-row>
         </header>
       </v-container>
-      <v-divider></v-divider>
-      <v-container>
-        <!-- <v-row no-gutters class="flex-column">
-          <v-col>
-            <header>
-              <h1 class="text-h5">Moja skrzynka odbiorcza</h1>
-            </header>
-          </v-col>
-          <v-col style="flex: 1 0 auto">
-            <section>
+    </v-col>
+    <v-divider></v-divider>
+
+    <v-col>
+      <section class="fill-height">
+        <v-container fill-height class="align-start">
+          <v-row no-gutters class="flex-column fill-height">
+            <v-col class="flex-grow-0">
+              <v-row no-gutters class="align-baseline">
+                <v-col cols="auto">
+                  <header>
+                    <h1 class="text-h5">Moja skrzynka odbiorcza</h1>
+                  </header>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col cols="3">
+                  <v-text-field
+                    v-model="searchQuery"
+                    outlined
+                    dense
+                    label="Szukaj"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col style="flex: 1 0 auto">
               <messages-list :messages="messages"> </messages-list>
-            </section>
-          </v-col>
-        </v-row> -->
-        <header>
+            </v-col>
+          </v-row>
+          <!-- <header>
           <h1 class="text-h5">Moja skrzynka odbiorcza</h1>
         </header>
         <section>
           <messages-list :messages="messages"> </messages-list>
-        </section>
-      </v-container>
+        </section> -->
+        </v-container>
+      </section>
     </v-col>
+    <!-- <v-col cols="12">
+     
+      <v-divider></v-divider>
+      
+    </v-col> -->
   </v-row>
 </template>
 
 <script>
+import { debounce } from 'lodash'
+
 export default {
   name: 'Index',
   async asyncData({ $axios }) {
     const messages = await $axios.$get('/api/messages')
-    // console.log('  ip', messages)
-    return { messages }
+    return {
+      messages: messages.map((message) => ({
+        ...message,
+        date: new Date(message.date).toLocaleString(),
+      })),
+    }
+  },
+  data: () => ({
+    searchQuery: '',
+    clonedMessages: undefined,
+  }),
+  mounted() {
+    this.$watch('searchQuery', debounce(this.search, 200))
+    // create copy of messages when user starts typing but only 🔛
+    const unwatch = this.$watch('searchQuery', () => {
+      this.clonedMessages = [...this.messages]
+      unwatch()
+    })
+  },
+  methods: {
+    search(val) {
+      if (val) {
+        this.messages = this.clonedMessages.filter((message) => {
+          return Object.values(message).some((value) =>
+            value.toString().toLowerCase().includes(val.toLowerCase())
+          )
+        })
+      } else {
+        this.messages = [...this.clonedMessages]
+      }
+    },
   },
 }
 </script>

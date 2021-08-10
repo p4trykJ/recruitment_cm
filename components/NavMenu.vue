@@ -4,7 +4,10 @@
       <v-col v-for="(item, i) in items" :key="i" cols="auto">
         <v-list-item :to="item.to" nuxt exact>
           <v-list-item-content>
-            <v-list-item-title v-text="item.name" />
+            <v-list-item-title
+              :class="{ 'white--text': !isFlexColumn }"
+              v-text="item.name"
+            />
           </v-list-item-content>
         </v-list-item>
       </v-col>

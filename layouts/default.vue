@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app style="padding: 0 5vh" tag="nav">
+    <v-app-bar app style="padding: 0 5vh" tag="nav" color="primary">
       <v-img src="/logotype.svg" max-width="140px"></v-img>
       <v-spacer></v-spacer>
       <v-icon class="d-md-none" @click="isDrawerVisible = !isDrawerVisible">
