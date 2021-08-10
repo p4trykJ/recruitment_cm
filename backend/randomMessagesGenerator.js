@@ -43,13 +43,15 @@ const usernames = [
 usernames.forEach((username) => usernamesGenerator.learn(username))
 
 function messagesGenerator(amount) {
+  const domains = ['pl', 'com', 'eu', 'gov']
   const messages = []
   console.time()
   for (let i = 0; i < amount; i++) {
     const message = randomTextGenerator.generate()
+    const tld = domains[Math.floor(Math.random() * domains.length)]
     messages.push({
       id: i,
-      user: `${usernamesGenerator.generate()}@example.com`,
+      user: `${usernamesGenerator.generate()}@example.${tld}`,
       date: getRandomDate(),
       title: message.slice(0, 50),
       message,

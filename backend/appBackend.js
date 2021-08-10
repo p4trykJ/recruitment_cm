@@ -8,6 +8,8 @@ app.use(cors())
 
 const port = process.env.PORT || 5000
 
+console.log(process)
+
 const messages = messagesGenerator(10000)
 
 app.get('/api/messages', function (req, res) {

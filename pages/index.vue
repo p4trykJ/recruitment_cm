@@ -21,14 +21,12 @@
         <v-container fill-height class="align-start">
           <v-row no-gutters class="flex-column fill-height">
             <v-col class="flex-grow-0">
-              <v-row no-gutters class="align-baseline">
-                <v-col cols="auto">
-                  <header>
-                    <h1 class="text-h5">Moja skrzynka odbiorcza</h1>
-                  </header>
+              <v-row no-gutters class="align-baseline flex-nowrap">
+                <v-col style="flex: 1 1 auto" class="text-truncate">
+                  <h1 class="text-h5 text-truncate">Moja skrzynka odbiorcza</h1>
                 </v-col>
                 <v-spacer></v-spacer>
-                <v-col cols="3">
+                <v-col cols="5" class="col-lg-3">
                   <v-text-field
                     v-model="searchQuery"
                     outlined
@@ -39,23 +37,20 @@
               </v-row>
             </v-col>
             <v-col style="flex: 1 0 auto">
-              <messages-list :messages="messages"> </messages-list>
+              <messages-list :messages="messages" @openMessage="openDialog">
+              </messages-list>
+              <message-dialog
+                v-if="isDialogLoaded"
+                v-model="isDialogVisible"
+                :title="title"
+                :message="message"
+                @close="isDialogVisible = false"
+              ></message-dialog>
             </v-col>
           </v-row>
-          <!-- <header>
-          <h1 class="text-h5">Moja skrzynka odbiorcza</h1>
-        </header>
-        <section>
-          <messages-list :messages="messages"> </messages-list>
-        </section> -->
         </v-container>
       </section>
     </v-col>
-    <!-- <v-col cols="12">
-     
-      <v-divider></v-divider>
-      
-    </v-col> -->
   </v-row>
 </template>
 
@@ -64,6 +59,9 @@ import { debounce } from 'lodash'
 
 export default {
   name: 'Index',
+  components: {
+    MessageDialog: () => import('@/components/MessageDialog'),
+  },
   async asyncData({ $axios }) {
     const messages = await $axios.$get('/api/messages')
     return {
@@ -76,6 +74,10 @@ export default {
   data: () => ({
     searchQuery: '',
     clonedMessages: undefined,
+    isDialogLoaded: false,
+    isDialogVisible: false,
+    title: undefined,
+    message: undefined,
   }),
   mounted() {
     this.$watch('searchQuery', debounce(this.search, 200))
@@ -86,6 +88,12 @@ export default {
     })
   },
   methods: {
+    openDialog(title, message) {
+      this.title = title
+      this.message = message
+      this.isDialogLoaded = true
+      this.isDialogVisible = true
+    },
     search(val) {
       if (val) {
         this.messages = this.clonedMessages.filter((message) => {

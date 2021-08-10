@@ -10,14 +10,12 @@
       <v-list-item-content class="pl-2">
         <v-list-item-title> Użytkownik</v-list-item-title>
       </v-list-item-content>
-
       <v-list-item-action> </v-list-item-action>
     </v-list-item>
-
     <v-virtual-scroll
       v-show="hasAnyMessage"
       class="border"
-      :bench="20"
+      :bench="200"
       :items="messages"
       height="500px"
       item-height="77"
@@ -26,7 +24,7 @@
         <v-list-item
           :key="item.id"
           class="py-2"
-          @click="$emit('openMessage', item.id)"
+          @click="$emit('openMessage', item.title, item.message)"
         >
           <v-list-item-content>
             <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -41,11 +39,9 @@
             <v-icon small> mdi-open-in-new </v-icon>
           </v-list-item-action>
         </v-list-item>
-
-        <v-divider></v-divider>
       </template>
     </v-virtual-scroll>
-    <v-list-item v-if="!hasAnyMessage" class="text-center border">
+    <v-list-item v-show="!hasAnyMessage" class="text-center border">
       <v-list-item-content>
         <v-list-item-title>
           Nie znaleziono pasujących wiadomości
