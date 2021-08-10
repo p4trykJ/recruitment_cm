@@ -6,11 +6,10 @@ const { messagesGenerator } = require('./randomMessagesGenerator')
 const app = express()
 app.use(cors())
 
+const messagesAmount = process.env.npm_config_amount || 1000
 const port = process.env.PORT || 5000
 
-console.log(process)
-
-const messages = messagesGenerator(10000)
+const messages = messagesGenerator(messagesAmount)
 
 app.get('/api/messages', function (req, res) {
   res.send(messages)
