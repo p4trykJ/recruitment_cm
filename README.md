@@ -1,6 +1,14 @@
 # Zadanie rekrutacyjne
 
-## Uruchamianie
+## Uruchamianie - Docker
+
+
+```bash
+$ MESSAGES_AMOUNT=1000 docker-compose up (amount określa ile wiadomości ma zostać wygenerowanych, domyślnie 1000)
+```
+
+
+## Uruchamianie - Node
 
 ```bash
 # setup backend
