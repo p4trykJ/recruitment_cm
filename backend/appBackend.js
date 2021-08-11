@@ -13,8 +13,8 @@ const messages = messagesGenerator(messagesAmount)
 
 app.get('/api/messages', function (req, res) {
   res.send(messages)
-  // res.send(messages.map(({ message, ...rest }) => ({ ...rest })))
 })
+
 
 app.get('/api/messages/:id', function (req, res) {
   const id = +req.params.id
