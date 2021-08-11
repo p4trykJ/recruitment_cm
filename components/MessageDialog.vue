@@ -1,5 +1,6 @@
 <template>
   <v-dialog
+    key="dialog"
     :value="value"
     transition="dialog-bottom-transition"
     max-width="600"

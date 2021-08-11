@@ -15,7 +15,6 @@
       </v-container>
     </v-col>
     <v-divider></v-divider>
-
     <v-col>
       <section class="fill-height">
         <v-container fill-height class="align-start">
