@@ -4,6 +4,7 @@
     :value="value"
     transition="dialog-bottom-transition"
     max-width="600"
+    @click:outside="$emit('close')"
   >
     <v-card>
       <v-card-title class="ma-0 white--text text-h5 primary">
