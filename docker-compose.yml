@@ -1,23 +1,23 @@
-version: '3.3'
+version: "3.3"
 services:
   frontend:
     restart: always
     container_name: frontend
-    image: 'frontend'
+    image: "frontend"
     build:
       context: ./
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./frontend/docker/Dockerfile
     ports:
-      - '3000:3000'
-    environment: 
+      - "3000:3000"
+    environment:
       - API_URL=http://backend:5000
       - HOST=0.0.0.0
   backend:
     restart: always
     container_name: backend
-    image: 'backend'
+    image: "backend"
     build:
       context: ./
       dockerfile: ./backend/docker/Dockerfile
-    environment: 
+    environment:
       - MESSAGES_AMOUNT=${MESSAGES_AMOUNT}

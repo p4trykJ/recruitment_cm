@@ -2,7 +2,7 @@ FROM node:lts-alpine as builder
 
 WORKDIR /app
 
-COPY . .
+COPY ./frontend .
 
 RUN npm i
 
